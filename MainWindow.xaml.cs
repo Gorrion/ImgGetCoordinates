@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
@@ -30,11 +31,28 @@ namespace ImgGetCoordinates
             if (selectedFilePath.Length > 0)
             {
                 var img = this.Find<Image>("Img1");
+
                 img.Source = new Bitmap(selectedFilePath[0]);
+
+                img.Width = img.Source.PixelWidth;
+                img.Height = img.Source.PixelHeight;
+
+                var drawArea = this.Find<Canvas>("DrawArea");
+                drawArea.Width = img.Source.PixelWidth;
+                drawArea.Height = img.Source.PixelHeight;
+
+                //this.Renderer.Start();
             }
             //Content.
             //var context = DataContext as HelloViewModel;
             //context.Result = "Hi " + context.Name + " !";
         }
+
+
+        public void DrawArea_PreviewMouseMove(object sender, PointerEventArgs args)
+        {
+            var tt = "";
+        }
+
     }
 }
