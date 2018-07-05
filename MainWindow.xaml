@@ -8,13 +8,20 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Panel Height="30" >
-            <Button Width="150" Click="OnButtonClicked">Открыть изображение</Button>
-        </Panel>
+        <StackPanel Height="30" Orientation="Horizontal" >
+          <Button Width="150" Click="OnButtonClicked">Открыть изображение</Button>
+          <ToggleButton Name="bSelPoligon" Width="150" >Выбрать точки</ToggleButton>
+          <Button Width="150" Click="OnPointDelClicked">Удалить послеюнюю точку</Button>
+          <Button Width="150" Click="OnPointClearClicked">Очистить</Button>
+          <TextBlock>X:</TextBlock><TextBlock Name="bXval"></TextBlock>
+          <TextBlock>Y:</TextBlock><TextBlock Name="bYval"></TextBlock>
+          <TextBlock>SelectedPoints:</TextBlock><TextBlock Name="tSelPoints"></TextBlock>
+        </StackPanel>
         <Border HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" BorderBrush="Blue" BorderThickness="3">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Canvas Name="DrawArea" PointerMoved="DrawArea_PreviewMouseMove">
+                <Canvas Name="cnvDrawArea" PointerMoved="DrawArea_PreviewMouseMove">
                     <Image Name="Img1" Stretch="None"></Image>
+                    <Polygon Name="Pol1"></Polygon>
                 </Canvas>
             </ScrollViewer>
         </Border>
