@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using Avalonia.Diagnostics.ViewModels;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -15,13 +16,26 @@ namespace ImgGetCoordinates
 {
     public class MainWindow : Window
     {
-        List<Point> _selectedPoligon = new List<Point>();
+        //List<Point> _selectedPoligon = new List<Point>();
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        public class MainWindowModel : ViewModelBase
+        {
+            public Point[] PoligonPoints { get; set; } = new Point[0];
+            public string PoligonCoordinatesText
+            {
+                get
+                {
+                    return string.Join(", ", (PoligonPoints ?? new Point[0]).Select(x => string.Format("({0},{1})", x.X, x.Y)));
+                }
+            }
+        }
+
+        private MainWindowModel Context = new MainWindowModel();
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
@@ -35,27 +49,32 @@ namespace ImgGetCoordinates
             pol1.Points = new List<Point>();
             pol1.StrokeThickness = 2;
             pol1.Opacity = 0.5;
+
+            this.DataContext = Context;
+
         }
 
         private void bSelPoligon_Click(object sender, RoutedEventArgs e)
         {
-            var pol1 = this.Find<Polygon>("Pol1");
-            pol1.Points = new List<Point>();
-            _selectedPoligon = new List<Point>();
-            this.Find<TextBlock>("tSelPoints").Text = string.Empty;
+            Context.PoligonPoints = new Point[0];
+
+            //var pol1 = this.Find<Polygon>("Pol1");
+            //pol1.Points = new List<Point>();
+            //_selectedPoligon = new List<Point>();
+            //this.Find<TextBlock>("tSelPoints").Text = string.Empty;
         }
 
         private void OnPointDelClicked(object sender, RoutedEventArgs e)
         {
-            if (_selectedPoligon.Count > 0) { _selectedPoligon.RemoveAt(_selectedPoligon.Count - 1); }
-            this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray();
+            /////////////if (Context.PoligonPoints.Count > 0) { Context.PoligonPoints.RemoveAt(Context.PoligonPoints.Count - 1); }
+          //  this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray();
         }
 
         private void OnPointClearClicked(object sender, RoutedEventArgs e)
         {
-            _selectedPoligon = new List<Point>();
-            this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray();
-            this.Find<TextBlock>("tSelPoints").Text = string.Empty;
+            Context.PoligonPoints = new Point[0];
+            //this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray();
+            //this.Find<TextBlock>("tSelPoints").Text = string.Empty;
         }
 
         private void cnvDrawArea_Pressed(object sender, PointerEventArgs e)
@@ -64,10 +83,12 @@ namespace ImgGetCoordinates
             if (bSelPoligon.IsChecked.HasValue && bSelPoligon.IsChecked.Value)
             {
                 var pos = e.GetPosition((IVisual)sender);
-                _selectedPoligon.Add(pos);
-                if (_selectedPoligon.Count > 1) { this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray(); }
-                this.Find<TextBlock>("tSelPoints").Text =
-                    string.Join(", ", _selectedPoligon.Select(x => string.Format("({0},{1})", x.X, x.Y)));
+                Context.PoligonPoints = Context.PoligonPoints.Concat(new[] { pos }).ToArray();
+
+
+                //if (_selectedPoligon.Count > 1) { this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray(); }
+                //this.Find<TextBlock>("tSelPoints").Text =
+                //    string.Join(", ", _selectedPoligon.Select(x => string.Format("({0},{1})", x.X, x.Y)));
             }
         }
 
@@ -95,6 +116,8 @@ namespace ImgGetCoordinates
 
         public void DrawArea_PreviewMouseMove(object sender, PointerEventArgs e)
         {
+            //var tt = this.Find<ScrollViewer>("ScrollImg1");
+
             var pos = e.GetPosition((IVisual)sender);
             this.Find<TextBlock>("bXval").Text = pos.X.ToString();
             this.Find<TextBlock>("bYval").Text = pos.Y.ToString();
