@@ -1,29 +1,33 @@
 <Window
-    xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ImgGetCoordinates">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackPanel Height="30" Orientation="Horizontal" >
-          <Button Width="150" Click="OnButtonClicked">Открыть изображение</Button>
-          <ToggleButton Name="bSelPoligon" Width="150" >Выбрать точки</ToggleButton>
-          <Button Width="150" Click="OnPointDelClicked">Удалить послеюнюю точку</Button>
-          <Button Width="150" Click="OnPointClearClicked">Очистить</Button>
-          <TextBlock>X:</TextBlock><TextBlock Name="bXval"></TextBlock>
-          <TextBlock>Y:</TextBlock><TextBlock Name="bYval"></TextBlock>
-          <TextBlock>SelectedPoints:</TextBlock><TextBlock Name="tSelPoints" Text="{Binding PoligonCoordinatesText}"></TextBlock>
-        </StackPanel>
-        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" BorderBrush="Blue" BorderThickness="3">
-            <ScrollViewer Name="ScrollImg1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Canvas Name="cnvDrawArea" PointerMoved="DrawArea_PreviewMouseMove">
-                    <Image Name="Img1" Stretch="None"></Image>
-                    <Polygon Name="Pol1" Points="{Binding PoligonPoints}"></Polygon>
-                </Canvas>
-            </ScrollViewer>
-        </Border>
-    </Grid>
+    xmlns:c="clr-namespace:ImgGetCoordinates;assembly=ImgGetCoordinates"
+    Width="800" Height="500"
+    Title="Get poligon coordinates">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30"></RowDefinition>
+      <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+    <StackPanel Height="30" Orientation="Horizontal" >
+      <Button Name="BtnSelImg" Width="150">Open Img</Button>
+      <ToggleButton Width="150" IsChecked="{Binding IsSelPoligonCheched}">Choose new poligon</ToggleButton>
+      <Button Name="BtnPointDel" Width="150">Remove last added Point</Button>
+      <Button Name="BtnPointsClear" Width="150">Clear</Button>
+      <TextBlock>X:</TextBlock>
+      <TextBlock Text="{Binding X}" />
+      <TextBlock Text="Y:" />
+      <TextBlock Text="{Binding Y}" />
+      <TextBlock>SelectedPoints:</TextBlock>
+      <TextBlock Text="{Binding PoligonCoordinatesText}" />
+    </StackPanel>
+    <Border HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" BorderBrush="Blue" BorderThickness="3">
+      <ScrollViewer Name="ScrollImg1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Canvas Name="CnvDrawArea" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}">
+          <Image Name="Img1" Stretch="None" Source="{Binding ImgSource}" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" />
+          <Polyline Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2"></Polyline>
+        </Canvas>
+      </ScrollViewer>
+    </Border>
+  </Grid>
 </Window>

@@ -16,8 +16,6 @@ namespace ImgGetCoordinates
 {
     public class MainWindow : Window
     {
-        //List<Point> _selectedPoligon = new List<Point>();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -25,102 +23,109 @@ namespace ImgGetCoordinates
 
         public class MainWindowModel : ViewModelBase
         {
-            public Point[] PoligonPoints { get; set; } = new Point[0];
+            private Point[] _poligonPoints = null;
+            public Point[] PoligonPoints
+            {
+                set
+                {
+                    _poligonPoints = value;
+                    this.RaisePropertyChanged(nameof(PoligonPoints));
+                    this.RaisePropertyChanged(nameof(PoligonCoordinatesText));
+
+                }
+                get { return _poligonPoints ?? new Point[0]; }
+            }
+
             public string PoligonCoordinatesText
             {
-                get
+                get { return string.Join(", ", PoligonPoints.Select(x => string.Format("({0},{1})", x.X, x.Y))); }
+            }
+
+            public double _x;
+            public double X { get { return _x; } set { _x = value; this.RaisePropertyChanged(nameof(X)); } }
+
+            public double _y;
+            public double Y { get { return _y; } set { _y = value; this.RaisePropertyChanged(nameof(Y)); } }
+
+            public bool _isSelPoligonCheched;
+            public bool IsSelPoligonCheched
+            {
+                get { return _isSelPoligonCheched; }
+                set
                 {
-                    return string.Join(", ", (PoligonPoints ?? new Point[0]).Select(x => string.Format("({0},{1})", x.X, x.Y)));
+                    _isSelPoligonCheched = value;
+                    if (value) { this.PoligonPoints = new Point[0]; }
+                    this.RaisePropertyChanged(nameof(IsSelPoligonCheched));
                 }
             }
+
+            public Bitmap _imgSource = null;
+            public Bitmap ImgSource
+            {
+                get { return _imgSource; }
+                set { _imgSource = value; ImgWidth = value.PixelWidth; ImgHeight = value.PixelHeight; this.RaisePropertyChanged(nameof(ImgSource)); }
+            }
+
+            public int _imgWidth;
+            public int ImgWidth { get { return _imgWidth; } set { _imgWidth = value; this.RaisePropertyChanged(nameof(ImgWidth)); } }
+
+            public int _imgHeight;
+            public int ImgHeight { get { return _imgHeight; } set { _imgHeight = value; this.RaisePropertyChanged(nameof(ImgHeight)); } }
         }
 
         private MainWindowModel Context = new MainWindowModel();
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-
-            this.Find<Canvas>("cnvDrawArea").PointerPressed += cnvDrawArea_Pressed;
-            this.Find<ToggleButton>("bSelPoligon").Click += bSelPoligon_Click;
-
-            var pol1 = this.Find<Polygon>("Pol1");
-            pol1.Stroke = Brushes.DarkBlue;
-            pol1.Fill = Brushes.Violet;
-            pol1.Points = new List<Point>();
-            pol1.StrokeThickness = 2;
-            pol1.Opacity = 0.5;
-
+            var cnvDrawArea = this.Find<Canvas>("CnvDrawArea");
+            cnvDrawArea.PointerPressed += OnCnvDrawAreaPressed;
+            cnvDrawArea.PointerMoved += OnDrawAreaPreviewMouseMove;
+            this.Find<Button>("BtnSelImg").Click += OnBtnSelImgClicked;
+            this.Find<Button>("BtnPointDel").Click += OnBtnPointDelClicked;
+            this.Find<Button>("BtnPointsClear").Click += OnBtnPointsClearClicked;
             this.DataContext = Context;
-
         }
 
-        private void bSelPoligon_Click(object sender, RoutedEventArgs e)
+        private void OnBtnPointDelClicked(object sender, RoutedEventArgs e)
         {
-            Context.PoligonPoints = new Point[0];
-
-            //var pol1 = this.Find<Polygon>("Pol1");
-            //pol1.Points = new List<Point>();
-            //_selectedPoligon = new List<Point>();
-            //this.Find<TextBlock>("tSelPoints").Text = string.Empty;
-        }
-
-        private void OnPointDelClicked(object sender, RoutedEventArgs e)
-        {
-            /////////////if (Context.PoligonPoints.Count > 0) { Context.PoligonPoints.RemoveAt(Context.PoligonPoints.Count - 1); }
-          //  this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray();
-        }
-
-        private void OnPointClearClicked(object sender, RoutedEventArgs e)
-        {
-            Context.PoligonPoints = new Point[0];
-            //this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray();
-            //this.Find<TextBlock>("tSelPoints").Text = string.Empty;
-        }
-
-        private void cnvDrawArea_Pressed(object sender, PointerEventArgs e)
-        {
-            var bSelPoligon = this.Find<ToggleButton>("bSelPoligon");
-            if (bSelPoligon.IsChecked.HasValue && bSelPoligon.IsChecked.Value)
+            if (Context.PoligonPoints.Length > 0)
             {
-                var pos = e.GetPosition((IVisual)sender);
-                Context.PoligonPoints = Context.PoligonPoints.Concat(new[] { pos }).ToArray();
-
-
-                //if (_selectedPoligon.Count > 1) { this.Find<Polygon>("Pol1").Points = _selectedPoligon.ToArray(); }
-                //this.Find<TextBlock>("tSelPoints").Text =
-                //    string.Join(", ", _selectedPoligon.Select(x => string.Format("({0},{1})", x.X, x.Y)));
+                var newLst = Context.PoligonPoints.ToList();
+                newLst.RemoveAt(newLst.Count - 1);
+                Context.PoligonPoints = newLst.ToArray();
             }
         }
 
-        public async void OnButtonClicked(object sender, RoutedEventArgs args)
+        private void OnBtnPointsClearClicked(object sender, RoutedEventArgs e)
+            => Context.PoligonPoints = new Point[0];
+
+        private void OnCnvDrawAreaPressed(object sender, PointerEventArgs e)
+        {
+            if (Context.IsSelPoligonCheched)
+            {
+                var pos = e.GetPosition((IVisual)sender);
+                Context.PoligonPoints = Context.PoligonPoints.Concat(new[] { pos }).ToArray();
+            }
+        }
+
+        public async void OnBtnSelImgClicked(object sender, RoutedEventArgs args)
         {
             var ofd = new OpenFileDialog();
             ofd.Title = "Choose a picture to load";
             ofd.Filters.Add(new FileDialogFilter { Name = "Images", Extensions = new List<string> { "png", "bmp", "jpg", "jpeg" } });
             var selectedFilePath = await ofd.ShowAsync();
 
-            if (selectedFilePath.Length > 0)
+            if (selectedFilePath != null && selectedFilePath.Length > 0)
             {
-                var img = this.Find<Image>("Img1");
-
-                img.Source = new Bitmap(selectedFilePath[0]);
-
-                img.Width = img.Source.PixelWidth;
-                img.Height = img.Source.PixelHeight;
-
-                var drawArea = this.Find<Canvas>("cnvDrawArea");
-                drawArea.Width = img.Source.PixelWidth;
-                drawArea.Height = img.Source.PixelHeight;
+                Context.ImgSource = new Bitmap(selectedFilePath[0]);
             }
         }
 
-        public void DrawArea_PreviewMouseMove(object sender, PointerEventArgs e)
+        public void OnDrawAreaPreviewMouseMove(object sender, PointerEventArgs e)
         {
-            //var tt = this.Find<ScrollViewer>("ScrollImg1");
-
             var pos = e.GetPosition((IVisual)sender);
-            this.Find<TextBlock>("bXval").Text = pos.X.ToString();
-            this.Find<TextBlock>("bYval").Text = pos.Y.ToString();
+            Context.X = pos.X;
+            Context.Y = pos.Y;
         }
     }
 }
