@@ -1,79 +1,28 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Shapes;
-using Avalonia.Diagnostics.ViewModels;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
+using ImgGetCoordinates.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ImgGetCoordinates
+namespace ImgGetCoordinates.Views
 {
     public class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
         }
 
-        public class MainWindowModel : ViewModelBase
-        {
-            private Point[] _poligonPoints = null;
-            public Point[] PoligonPoints
-            {
-                set
-                {
-                    _poligonPoints = value;
-                    this.RaisePropertyChanged(nameof(PoligonPoints));
-                    this.RaisePropertyChanged(nameof(PoligonCoordinatesText));
+        private MainWindowViewModel Context => (MainWindowViewModel)this.DataContext;
 
-                }
-                get { return _poligonPoints ?? new Point[0]; }
-            }
-
-            public string PoligonCoordinatesText
-            {
-                get { return string.Join(", ", PoligonPoints.Select(x => string.Format("({0},{1})", x.X, x.Y))); }
-            }
-
-            public double _x;
-            public double X { get { return _x; } set { _x = value; this.RaisePropertyChanged(nameof(X)); } }
-
-            public double _y;
-            public double Y { get { return _y; } set { _y = value; this.RaisePropertyChanged(nameof(Y)); } }
-
-            public bool _isSelPoligonCheched;
-            public bool IsSelPoligonCheched
-            {
-                get { return _isSelPoligonCheched; }
-                set
-                {
-                    _isSelPoligonCheched = value;
-                    if (value) { this.PoligonPoints = new Point[0]; }
-                    this.RaisePropertyChanged(nameof(IsSelPoligonCheched));
-                }
-            }
-
-            public Bitmap _imgSource = null;
-            public Bitmap ImgSource
-            {
-                get { return _imgSource; }
-                set { _imgSource = value; ImgWidth = value.PixelWidth; ImgHeight = value.PixelHeight; this.RaisePropertyChanged(nameof(ImgSource)); }
-            }
-
-            public int _imgWidth;
-            public int ImgWidth { get { return _imgWidth; } set { _imgWidth = value; this.RaisePropertyChanged(nameof(ImgWidth)); } }
-
-            public int _imgHeight;
-            public int ImgHeight { get { return _imgHeight; } set { _imgHeight = value; this.RaisePropertyChanged(nameof(ImgHeight)); } }
-        }
-
-        private MainWindowModel Context = new MainWindowModel();
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
@@ -83,7 +32,6 @@ namespace ImgGetCoordinates
             this.Find<Button>("BtnSelImg").Click += OnBtnSelImgClicked;
             this.Find<Button>("BtnPointDel").Click += OnBtnPointDelClicked;
             this.Find<Button>("BtnPointsClear").Click += OnBtnPointsClearClicked;
-            this.DataContext = Context;
         }
 
         private void OnBtnPointDelClicked(object sender, RoutedEventArgs e)

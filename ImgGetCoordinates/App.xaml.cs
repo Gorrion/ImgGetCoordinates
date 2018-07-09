@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Markup.Xaml;
 
 namespace ImgGetCoordinates
@@ -9,5 +9,5 @@ namespace ImgGetCoordinates
         {
             AvaloniaXamlLoader.Load(this);
         }
-   }
+    }
 }

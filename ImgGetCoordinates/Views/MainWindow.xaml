@@ -1,9 +1,13 @@
-<Window
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="clr-namespace:ImgGetCoordinates;assembly=ImgGetCoordinates"
-    Width="800" Height="500"
-    Title="Get poligon coordinates">
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ImgGetCoordinates.ViewModels;assembly=ImgGetCoordinates"
+        Icon="resm:ImgGetCoordinates.Assets.avalonia-logo.ico"
+        Title="ImgGetCoordinates">
+
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="30"></RowDefinition>
@@ -25,9 +29,10 @@
       <ScrollViewer Name="ScrollImg1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Canvas Name="CnvDrawArea" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}">
           <Image Name="Img1" Stretch="None" Source="{Binding ImgSource}" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" />
-          <Polyline Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2"></Polyline>
+          <Polygon Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2"></Polygon>
         </Canvas>
       </ScrollViewer>
     </Border>
   </Grid>
+
 </Window>
