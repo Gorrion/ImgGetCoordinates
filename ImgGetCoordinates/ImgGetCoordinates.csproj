@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
-    <ApplicationIcon />
+    <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
