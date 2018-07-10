@@ -10,26 +10,27 @@
 
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="30"></RowDefinition>
+      <RowDefinition Height="40"></RowDefinition>
       <RowDefinition></RowDefinition>
     </Grid.RowDefinitions>
-    <StackPanel Height="30" Orientation="Horizontal" >
-      <Button Name="BtnSelImg" Width="150">Open Img</Button>
-      <ToggleButton Width="150" IsChecked="{Binding IsSelPoligonCheched}">Choose new poligon</ToggleButton>
-      <Button Name="BtnPointDel" Width="150">Remove last added Point</Button>
-      <Button Name="BtnPointsClear" Width="150">Clear</Button>
-      <TextBlock>X:</TextBlock>
-      <TextBlock Text="{Binding X}" />
-      <TextBlock Text="Y:" />
-      <TextBlock Text="{Binding Y}" />
-      <TextBlock>SelectedPoints:</TextBlock>
-      <TextBlock Text="{Binding PoligonCoordinatesText}" />
+    <StackPanel Orientation="Horizontal" >
+      <Button Name="BtnSelImg" Margin="5" Width="150">Open Img</Button>
+      <ToggleButton Width="150" Margin="5" IsChecked="{Binding IsSelPoligonCheched}">Choose new poligon</ToggleButton>
+      <Button Name="BtnPointDel" Margin="5" Width="150">Remove last added Point</Button>
+      <Button Name="BtnPointsClear" Margin="5" Width="150">Clear</Button>
+      <Button Name="BtnPointsCopy" Margin="5" Width="150">Copy Polygon</Button>
+      <TextBlock Margin="5">X:</TextBlock>
+      <TextBlock Margin="5" Text="{Binding X}" />
+      <TextBlock Margin="5" Text="Y:" />
+      <TextBlock Margin="5" Text="{Binding Y}" />
+      <TextBlock Margin="5">SelectedPoints:</TextBlock>
+      <TextBlock Margin="5" Text="{Binding PoligonCoordinatesText}" />
     </StackPanel>
     <Border HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" BorderBrush="Blue" BorderThickness="3">
       <ScrollViewer Name="ScrollImg1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Canvas Name="CnvDrawArea" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}">
           <Image Name="Img1" Stretch="None" Source="{Binding ImgSource}" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" />
-          <Polygon Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2"></Polygon>
+          <Polygon Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2" Stretch="None" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" ></Polygon>
         </Canvas>
       </ScrollViewer>
     </Border>

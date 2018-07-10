@@ -1,10 +1,13 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
+using ImgGetCoordinates.Libs.OS;
 using ImgGetCoordinates.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +35,7 @@ namespace ImgGetCoordinates.Views
             this.Find<Button>("BtnSelImg").Click += OnBtnSelImgClicked;
             this.Find<Button>("BtnPointDel").Click += OnBtnPointDelClicked;
             this.Find<Button>("BtnPointsClear").Click += OnBtnPointsClearClicked;
+            this.Find<Button>("BtnPointsCopy").Click += OnBtnPointsCopyClicked;
         }
 
         private void OnBtnPointDelClicked(object sender, RoutedEventArgs e)
@@ -46,6 +50,11 @@ namespace ImgGetCoordinates.Views
 
         private void OnBtnPointsClearClicked(object sender, RoutedEventArgs e)
             => Context.PoligonPoints = new Point[0];
+
+        private void OnBtnPointsCopyClicked(object sender, RoutedEventArgs e)
+        {
+            Clipboard.Copy(string.Join(";", Context.PoligonPoints.Select(x => string.Format("{0},{1}", x.X, x.Y))));
+        }
 
         private void OnCnvDrawAreaPressed(object sender, PointerEventArgs e)
         {
