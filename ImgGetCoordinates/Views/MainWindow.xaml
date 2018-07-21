@@ -2,7 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:ImgGetCoordinates.ViewModels;assembly=ImgGetCoordinates"
         Icon="resm:ImgGetCoordinates.Assets.avalonia-logo.ico"
-        Title="ImgGetCoordinates">
+        Title="ImgGetCoordinates"
+        Width="600"
+        Height="400">
 
   <Design.DataContext>
     <vm:MainWindowViewModel/>
