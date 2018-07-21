@@ -53,7 +53,7 @@ namespace ImgGetCoordinates.Views
 
         private void OnBtnPointsCopyClicked(object sender, RoutedEventArgs e)
         {
-            Clipboard.Copy(string.Join(";", Context.PoligonPoints.Select(x => string.Format("{0},{1}", x.X, x.Y))));
+            Clipboard.Copy(string.Join(";", Context.PoligonPoints.Select(x => string.Format("{0},{1}", (int)x.X, (int)x.Y))));
         }
 
         private void OnCnvDrawAreaPressed(object sender, PointerEventArgs e)
@@ -81,8 +81,8 @@ namespace ImgGetCoordinates.Views
         public void OnDrawAreaPreviewMouseMove(object sender, PointerEventArgs e)
         {
             var pos = e.GetPosition((IVisual)sender);
-            Context.X = pos.X;
-            Context.Y = pos.Y;
+            Context.X = (int)pos.X;
+            Context.Y = (int)pos.Y;
         }
     }
 }

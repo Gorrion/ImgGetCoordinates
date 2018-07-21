@@ -8,14 +8,26 @@ namespace ImgGetCoordinates.Libs.OS
     {
         public static void Copy(string val)
         {
-            if (OperatingSystem.IsWindows())
+            try
             {
-                $"echo {val} | clip".Bat();
-            }
+                if (OperatingSystem.IsWindows())
+                {
+                    $"echo {val} | clip".Bat();
+                }
 
-            if (OperatingSystem.IsMacOS())
+                if (OperatingSystem.IsMacOS())
+                {
+                    $"echo \"{val}\" | pbcopy".Bash();
+                }
+
+                if (OperatingSystem.IsLinux())
+                {
+                    $"echo -n \"{val}\" | xclip -selection clipboard".Bash();
+                }
+            }
+            catch (Exception ex)
             {
-                $"echo \"{val}\" | pbcopy".Bash();
+                
             }
         }
     }
