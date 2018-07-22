@@ -22,7 +22,7 @@ namespace ImgGetCoordinates.Libs.OS
 
                 if (OperatingSystem.IsLinux())
                 {
-                    $"echo -n \"{val}\" | xclip -selection clipboard".Bash();
+                    $"echo -n \"{val}\" | xclip -selection clipboard".LinBash();
                 }
             }
             catch (Exception ex)
