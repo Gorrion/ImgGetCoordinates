@@ -13,13 +13,11 @@ namespace ImgGetCoordinates.Libs.OS
             string result = Run("/bin/bash", $"-c \"{escapedArgs}\"");
             return result;
         }
-        
-        public static void LinBash(this string cmd)
+
+        public static void BashNoResult(this string cmd)
         {
-           var escapedArgs = cmd.Replace("\"", "\\\"");
+            var escapedArgs = cmd.Replace("\"", "\\\"");
             Start("/bin/bash", $"-c \"{escapedArgs}\"");
-            var yy = 9;
-            //return result;
         }
 
         public static string Bat(this string cmd)
@@ -47,7 +45,7 @@ namespace ImgGetCoordinates.Libs.OS
             process.WaitForExit();
             return result;
         }
-        
+
         private static void Start(string filename, string arguments)
         {
             var process = new Process()
