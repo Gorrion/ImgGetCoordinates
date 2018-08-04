@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers>
-  <!--Costura>
+  <Costura>
     <ExcludeAssemblies>
       Avalonia.Direct2D1
       Avalonia.Win32
     </ExcludeAssemblies>
-  </Costura-->
+  </Costura>
 </Weavers>
