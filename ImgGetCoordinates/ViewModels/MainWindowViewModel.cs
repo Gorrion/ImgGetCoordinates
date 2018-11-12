@@ -49,7 +49,7 @@ namespace ImgGetCoordinates.ViewModels
         public Bitmap ImgSource
         {
             get => _imgSource;
-            set { _imgSource = value; ImgWidth = value.PixelWidth; ImgHeight = value.PixelHeight; this.RaisePropertyChanged(nameof(ImgSource)); }
+            set { _imgSource = value; ImgWidth = value.PixelSize.Width; ImgHeight = value.PixelSize.Height; this.RaisePropertyChanged(nameof(ImgSource)); }
         }
 
         private int _imgWidth;

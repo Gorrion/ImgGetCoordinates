@@ -4,6 +4,8 @@
     <ExcludeAssemblies>
       Avalonia.Direct2D1
       Avalonia.Win32
+      libSkiaSharp
+      SkiaSharp
     </ExcludeAssemblies>
   </Costura>
 </Weavers>
