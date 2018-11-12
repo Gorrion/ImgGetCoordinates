@@ -37,7 +37,16 @@ namespace ImgGetCoordinates.Views
             this.Find<Button>("BtnPointsClear").Click += OnBtnPointsClearClicked;
             this.Find<Button>("BtnPointsCopy").Click += OnBtnPointsCopyClicked;
 
-            /*cnvDrawArea.AddHandler(DragDrop.DragEnterEvent, (s, e) => {
+            /*cnvDrawArea.PointerMoved += OnBtnPointDelClicked;
+            cnvDrawArea.PointerEnter += OnBtnPointDelClicked;
+            cnvDrawArea.PointerPressed += OnBtnPointDelClicked;
+            cnvDrawArea.PointerReleased += OnBtnPointDelClicked;
+            cnvDrawArea.PropertyChanged += (s, e) => {
+
+                var tt = 59;
+            };
+
+            cnvDrawArea.AddHandler(DragDrop.DragEnterEvent, (s, e) => {
 
                 var ttt = 88;
 
