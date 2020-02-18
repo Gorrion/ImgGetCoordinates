@@ -9,7 +9,6 @@
         xmlns:handlers="clr-namespace:ImgGetCoordinates.UiAvalonia.Handlers;assembly=ImgGetCoordinates"
         x:Class="ImgGetCoordinates.Views.MainWindow"
         Icon="resm:ImgGetCoordinates.Assets.avalonia-logo.ico"
-        d:DataContext="{x:Static Designer:DesignerContext.Editor}"
         id:DropBehavior.IsEnabled="True"
         id:DragBehavior.IsEnabled="True"
         Title="ImgGetCoordinates"
@@ -46,13 +45,9 @@
         <TextBlock Margin="5">SelectedPoints:</TextBlock>
         <TextBlock Margin="5" Text="{Binding PoligonCoordinatesText}" />
       </StackPanel>
-      <!-- pages:DragAndDropPage/-->
+      <pages:DragAndDropPage/>
       <Border HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" BorderBrush="Blue" BorderThickness="3">
         <ScrollViewer Name="ScrollImg1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-          <i:Interaction.Behaviors>
-            <!--<id:DropBehavior Context="{Binding Layout}" Handler="{StaticResource DockDropHandler}"/>-->
-            <id:DropBehavior Handler="{StaticResource EditorDropHandler}"/>
-          </i:Interaction.Behaviors>
           <Canvas Name="CnvDrawArea" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" DragDrop.AllowDrop="True">
             <Image Name="Img1" Stretch="None" Source="{Binding ImgSource}" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" />
             <Polygon Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2" Stretch="None" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" ></Polygon>

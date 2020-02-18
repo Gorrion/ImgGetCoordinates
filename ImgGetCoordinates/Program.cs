@@ -14,6 +14,6 @@ namespace ImgGetCoordinates
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .UseReactiveUI()
-                .LogToDebug();
+                .LogToDebug(Avalonia.Logging.LogEventLevel.Information);
     }
 }

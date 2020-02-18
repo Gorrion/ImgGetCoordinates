@@ -1,7 +1,17 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:id="clr-namespace:ImgGetCoordinates.UiAvalonia.DnD;assembly=ImgGetCoordinates"
+             xmlns:handlers="clr-namespace:ImgGetCoordinates.UiAvalonia.Handlers;assembly=ImgGetCoordinates"
              x:Class="ImgGetCoordinates.Views.DragAndDropPage">
+    <UserControl.Resources>
+        <handlers:EditorDropHandler x:Key="EditorDropHandler"/>
+    </UserControl.Resources>
     <StackPanel Orientation="Vertical" Spacing="4">
+        <i:Interaction.Behaviors>
+            <id:DropBehavior Context="{StaticResource EditorDropHandler}" Handler="{StaticResource EditorDropHandler}"/>
+        </i:Interaction.Behaviors>
         <TextBlock Classes="h1">Drag+Drop</TextBlock>
         <TextBlock Classes="h2">Example of Drag+Drop capabilities</TextBlock>
 
@@ -10,6 +20,7 @@
                 HorizontalAlignment="Center"
                 Spacing="16">
             <Border BorderBrush="{DynamicResource ThemeAccentBrush}" BorderThickness="2" Padding="16" Name="DragMe">
+          
                 <TextBlock Name="DragState">Drag Me</TextBlock>
             </Border>
             <Border Background="{DynamicResource ThemeAccentBrush2}" Padding="16" 

@@ -6,7 +6,13 @@ namespace ImgGetCoordinates
 {
     public class DesignerContext
     {
-        static object Editor { get; set; } = new object();
+        static Tt Editor { get; set; } = new Tt();
 
+    }
+
+
+    public class Tt
+    {
+        public string H { get; set; } = "H";
     }
 }
