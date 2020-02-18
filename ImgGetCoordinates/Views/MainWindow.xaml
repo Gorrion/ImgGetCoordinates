@@ -1,48 +1,66 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:vm="clr-namespace:ImgGetCoordinates.ViewModels;assembly=ImgGetCoordinates"
         xmlns:pages="clr-namespace:ImgGetCoordinates.Views"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:id="clr-namespace:ImgGetCoordinates.UiAvalonia.DnD;assembly=ImgGetCoordinates"
+        xmlns:iac="clr-namespace:Avalonia.Xaml.Interactions.Custom;assembly=Avalonia.Xaml.Interactions.Custom"
+        xmlns:handlers="clr-namespace:ImgGetCoordinates.UiAvalonia.Handlers;assembly=ImgGetCoordinates"
         x:Class="ImgGetCoordinates.Views.MainWindow"
         Icon="resm:ImgGetCoordinates.Assets.avalonia-logo.ico"
+        d:DataContext="{x:Static Designer:DesignerContext.Editor}"
+        id:DropBehavior.IsEnabled="True"
+        id:DragBehavior.IsEnabled="True"
         Title="ImgGetCoordinates"
         Width="600"
         Height="400">
+  <Window.Resources>
+    <handlers:EditorDropHandler x:Key="EditorDropHandler"/>
+  </Window.Resources>
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+  <i:Interaction.Behaviors>
+    <iac:FocusOnAttachedToVisualTreeBehavior/>
+    <iac:FocusOnPointerMovedBehavior/>
+    <!--<id:DropBehavior Context="{Binding Layout}" Handler="{StaticResource DockDropHandler}"/>-->
+    <id:DropBehavior Handler="{StaticResource EditorDropHandler}"/>
+  </i:Interaction.Behaviors>
+  <Grid Classes="container">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40"></RowDefinition>
+      <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+    <StackPanel>
+      <StackPanel Orientation="Horizontal" >
+        <Button Name="BtnSelImg" Margin="5" Width="150">Open Img</Button>
+        <ToggleButton Width="150" Margin="5" IsChecked="{Binding IsSelPoligonCheched}">Choose new poligon</ToggleButton>
+        <Button Name="BtnPointDel" Margin="5" Width="150">Remove last added Point</Button>
+        <Button Name="BtnPointsClear" Margin="5" Width="150">Clear</Button>
+        <Button Name="BtnPointsCopy" Margin="5" Width="150">Copy Polygon</Button>
+        <TextBlock Margin="5">X:</TextBlock>
+        <TextBlock Margin="5" Text="{Binding X}" />
+        <TextBlock Margin="5" Text="Y:" />
+        <TextBlock Margin="5" Text="{Binding Y}" />
+        <TextBlock Margin="5">SelectedPoints:</TextBlock>
+        <TextBlock Margin="5" Text="{Binding PoligonCoordinatesText}" />
+      </StackPanel>
+      <!-- pages:DragAndDropPage/-->
+      <Border HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" BorderBrush="Blue" BorderThickness="3">
+        <ScrollViewer Name="ScrollImg1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+          <i:Interaction.Behaviors>
+            <!--<id:DropBehavior Context="{Binding Layout}" Handler="{StaticResource DockDropHandler}"/>-->
+            <id:DropBehavior Handler="{StaticResource EditorDropHandler}"/>
+          </i:Interaction.Behaviors>
+          <Canvas Name="CnvDrawArea" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" DragDrop.AllowDrop="True">
+            <Image Name="Img1" Stretch="None" Source="{Binding ImgSource}" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" />
+            <Polygon Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2" Stretch="None" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" ></Polygon>
+          </Canvas>
+        </ScrollViewer>
+      </Border>
+    </StackPanel>
+  </Grid>
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackPanel>
-        <StackPanel Orientation="Horizontal" >
-            
-            <Button Name="BtnSelImg" Margin="5" Width="150">Open Img</Button>
-            <ToggleButton Width="150" Margin="5" IsChecked="{Binding IsSelPoligonCheched}">Choose new poligon</ToggleButton>
-            <Button Name="BtnPointDel" Margin="5" Width="150">Remove last added Point</Button>
-            <Button Name="BtnPointsClear" Margin="5" Width="150">Clear</Button>
-            <Button Name="BtnPointsCopy" Margin="5" Width="150">Copy Polygon</Button>
-            <TextBlock Margin="5">X:</TextBlock>
-            <TextBlock Margin="5" Text="{Binding X}" />
-            <TextBlock Margin="5" Text="Y:" />
-            <TextBlock Margin="5" Text="{Binding Y}" />
-            <TextBlock Margin="5">SelectedPoints:</TextBlock>
-            <TextBlock Margin="5" Text="{Binding PoligonCoordinatesText}" />
-        </StackPanel>
-            <pages:DragAndDropPage/>
-            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" BorderBrush="Blue" BorderThickness="3">
-            <ScrollViewer Name="ScrollImg1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Canvas Name="CnvDrawArea" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" DragDrop.AllowDrop="True">
-                    <Image Name="Img1" Stretch="None" Source="{Binding ImgSource}" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" />
-                    <Polygon Name="Pol1" Points="{Binding PoligonPoints}" Stroke="DarkBlue" Fill="Violet" Opacity="0.5" StrokeThickness="2" Stretch="None" Width="{Binding ImgWidth}" Height="{Binding ImgHeight}" ></Polygon>
-                    
-                </Canvas>
-            </ScrollViewer>
-            </Border>
-        </StackPanel>
-    </Grid>
 
 </Window>
