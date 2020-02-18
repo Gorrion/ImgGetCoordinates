@@ -6,11 +6,13 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using ImgGetCoordinates.Libs.OS;
 using ImgGetCoordinates.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImgGetCoordinates.Views
 {
@@ -20,7 +22,7 @@ namespace ImgGetCoordinates.Views
         {
             InitializeComponent();
 #if DEBUG
-            this.AttachDevTools();
+            // this.AttachDevTools();
 #endif
         }
 
@@ -29,6 +31,8 @@ namespace ImgGetCoordinates.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+
+
             var cnvDrawArea = this.Find<Canvas>("CnvDrawArea");
             cnvDrawArea.PointerPressed += OnCnvDrawAreaPressed;
             cnvDrawArea.PointerMoved += OnDrawAreaPreviewMouseMove;
@@ -36,34 +40,7 @@ namespace ImgGetCoordinates.Views
             this.Find<Button>("BtnPointDel").Click += OnBtnPointDelClicked;
             this.Find<Button>("BtnPointsClear").Click += OnBtnPointsClearClicked;
             this.Find<Button>("BtnPointsCopy").Click += OnBtnPointsCopyClicked;
-
-            /*cnvDrawArea.PointerMoved += OnBtnPointDelClicked;
-            cnvDrawArea.PointerEnter += OnBtnPointDelClicked;
-            cnvDrawArea.PointerPressed += OnBtnPointDelClicked;
-            cnvDrawArea.PointerReleased += OnBtnPointDelClicked;
-            cnvDrawArea.PropertyChanged += (s, e) => {
-
-                var tt = 59;
-            };
-
-            cnvDrawArea.AddHandler(DragDrop.DragEnterEvent, (s, e) => {
-
-                var ttt = 88;
-
-            });
-            cnvDrawArea.AddHandler(DragDrop.DragOverEvent, (s, e) => {
-
-                var ttt = 88;
-
-            });
-
-            cnvDrawArea.AddHandler(DragDrop.DropEvent, (s, e) => {
-
-                var ttt = 88;
-
-            });*/
-
-        }
+        }     
 
         private void OnBtnPointDelClicked(object sender, RoutedEventArgs e)
         {
@@ -97,7 +74,7 @@ namespace ImgGetCoordinates.Views
             var ofd = new OpenFileDialog();
             ofd.Title = "Choose a picture to load";
             ofd.Filters.Add(new FileDialogFilter { Name = "Images", Extensions = new List<string> { "png", "bmp", "jpg", "jpeg" } });
-            var selectedFilePath = await ofd.ShowAsync();
+            var selectedFilePath = await ofd.ShowAsync(this);
 
             if (selectedFilePath != null && selectedFilePath.Length > 0)
             {
