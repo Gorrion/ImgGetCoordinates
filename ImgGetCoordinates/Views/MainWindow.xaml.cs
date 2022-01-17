@@ -8,6 +8,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using ImgGetCoordinates.Libs.Be;
 using ImgGetCoordinates.Libs.OS;
 using ImgGetCoordinates.ViewModels;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace ImgGetCoordinates.Views
         {
             var ofd = new OpenFileDialog();
             ofd.Title = "Choose a picture to load";
-            ofd.Filters.Add(new FileDialogFilter { Name = "Images", Extensions = new List<string> { "png", "bmp", "jpg", "jpeg" } });
+            ofd.Filters.Add(new FileDialogFilter { Name = "Images", Extensions = ImageInfo.Formats });
             var selectedFilePath = await ofd.ShowAsync(this);
 
             if (selectedFilePath != null && selectedFilePath.Length > 0)

@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using System.Linq;
 
 namespace ImgGetCoordinates.UiAvalonia.DnD
 {
@@ -13,6 +14,7 @@ namespace ImgGetCoordinates.UiAvalonia.DnD
         /// <inheritdoc/>
         public virtual void Enter(object sender, DragEventArgs e, object sourceContext, object targetContext)
         {
+           
             if (Validate(sender, e, sourceContext, targetContext, null) == false)
             {
                 e.DragEffects = DragDropEffects.None;

@@ -1,12 +1,13 @@
 ﻿using System;
 using Avalonia;
-using Avalonia.Logging.Serilog;
+//using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
 
 namespace ImgGetCoordinates
 {
     class Program
     {
+        [STAThread]
         public static void Main(string[] args) => BuildAvaloniaApp()
              .StartWithClassicDesktopLifetime(args);
 
@@ -14,6 +15,6 @@ namespace ImgGetCoordinates
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .UseReactiveUI()
-                .LogToDebug(Avalonia.Logging.LogEventLevel.Information);
+                .LogToTrace(Avalonia.Logging.LogEventLevel.Information);
     }
 }
