@@ -33,7 +33,6 @@ namespace ImgGetCoordinates.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-
             var cnvDrawArea = this.Find<Canvas>("CnvDrawArea");
             cnvDrawArea.PointerPressed += OnCnvDrawAreaPressed;
             cnvDrawArea.PointerMoved += OnDrawAreaPreviewMouseMove;

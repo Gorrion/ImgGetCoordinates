@@ -20,7 +20,7 @@ namespace ImgGetCoordinates.UiAvalonia.Handlers
         /// <inheritdoc/>
         public override bool Validate(object sender, DragEventArgs e, object sourceContext, object targetContext, object state)
         {
-            var fN = e.Data.GetFileNames().FirstOrDefault();
+            var fN = e.Data.GetFileNames()?.FirstOrDefault();
             var result = fN != null && ImageInfo.Formats.Any(x => x.Equals(fN.Split('.').Last(), System.StringComparison.OrdinalIgnoreCase));
             return result;
         }
@@ -28,7 +28,7 @@ namespace ImgGetCoordinates.UiAvalonia.Handlers
         /// <inheritdoc/>
         public override bool Execute(object sender, DragEventArgs e, object sourceContext, object targetContext, object state)
         {
-            var fN = e.Data.GetFileNames().FirstOrDefault();
+            var fN = e.Data.GetFileNames()?.FirstOrDefault();
             if (fN != null)
             {
                 try
